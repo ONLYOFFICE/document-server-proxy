@@ -5,6 +5,10 @@ Install Nginx server. How to do this, see [Nginx documentation](http://nginx.org
 ### Step 2
 Put corresponding configuration file into /etc/nginx/conf.d/ directory.
 Change the 'backend-server' statment in configuration file with the address where onlyoffice-documentserver run.
+Make sure that the file /etc/nginx/nginx.conf include files from /etc/nginx/conf.d/ like this
+```
+include /etc/nginx/conf.d/*.conf;
+```
 
 ### Step 3
 Reload nginx service. Run command:
