@@ -1,4 +1,4 @@
-﻿## What this is for
+## What this is for
 This guide explains how to set your IIS to allow connecting **Document Server** using a virtual path (i.e. when Document Server address is not the root domain address, but is a virtual folder inside the address, e.g. http://docservice/documentserver-virtual-path/).
 
 ## How to use it
