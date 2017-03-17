@@ -1,5 +1,5 @@
-## What this is for
-This guide explains how to set your IIS to allow connecting **Document Server** using a virtual path (i.e. when Document Server address is not the root domain address, but is a virtual folder inside the address, e.g. http://my-domain/document-server-address/).
+﻿## What this is for
+This guide explains how to set your IIS to allow connecting **Document Server** using a virtual path (i.e. when Document Server address is not the root domain address, but is a virtual folder inside the address, e.g. http://docservice/documentserver-virtual-path/).
 
 ## How to use it
 
@@ -39,4 +39,4 @@ Add IIS server variables. You will need to add `HTTP_X_FORWARDED_PROTO` and `HTT
 * Go to the IIS Manager, select the website, then open **URL Rewrite**.
 * In the right-side menu locate **Manage Server Variables** and click **View Server Variables**.
 * Use the **Add...** action and add the `HTTP_X_FORWARDED_PROTO` and `HTTP_X_FORWARDED_HOST` one after another.
-More information on adding the variables to the IIS server can be found [here](https://www.iis.net/learn/extensions/url-rewrite-module/setting-http-request-headers-and-iis-server-variables)
+More information on adding the variables to the IIS server can be found [here](https://www.iis.net/learn/extensions/url-rewrite-module/setting-http-request-headers-and-iis-server-variables).
