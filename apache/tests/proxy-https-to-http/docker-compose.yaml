@@ -1,0 +1,35 @@
+version: '2'
+services:
+  onlyoffice-documentserver:
+    container_name: onlyoffice-documentserver
+    image: onlyoffice/4testing-documentserver-integration:latest
+    stdin_open: true
+    restart: always
+    networks:
+      onlyoffice:
+        aliases:
+          - backendserver-address
+    expose:
+      - '80'
+
+  onlyoffice-httpd:
+    container_name: onlyoffice-httpd
+    image: httpd:2.4
+    depends_on:
+      - onlyoffice-documentserver
+    stdin_open: true
+    volumes:
+      - ../../proxy-https-to-http.conf:/usr/local/apache2/conf/httpd.conf
+      - ./server.crt:/usr/local/apache2/conf/server.crt
+      - ./server.key:/usr/local/apache2/conf/server.key
+    restart: always
+    networks:
+     - onlyoffice
+    ports:
+      - '80:80'
+      - '443:443'
+
+networks:
+  onlyoffice:
+    driver: 'bridge'
+
