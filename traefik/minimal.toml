@@ -1,0 +1,16 @@
+defaultEntryPoints = ["http"]
+[entryPoints]
+  [entryPoints.http]
+    address = ":80"
+
+[file]
+
+[backends]
+  [backends.docservice]
+    [backends.docservice.servers.backendserver-address]
+    url = "http://backendserver-address/"
+
+[frontends]
+  [frontends.docservice]
+  backend = "docservice"
+  passHostHeader = true
