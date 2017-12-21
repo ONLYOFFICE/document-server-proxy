@@ -1,0 +1,29 @@
+# Use this example for proxy HTTPS traffic to the document server running at 'backendserver-address'.
+# Replace {{SSL_CERTIFICATE_PATH}} with the path to the ssl certificate file
+# Replace {{SSL_KEY_PATH}} with the path to the ssl private key file
+defaultEntryPoints = ["http", "https"]
+[entryPoints]
+  [entryPoints.https]
+    address = ":443"
+    [entryPoints.https.tls]
+      [[entryPoints.https.tls.certificates]]
+      certFile = "{{SSL_CERTIFICATE_PATH}}"
+      keyFile = "{{SSL_KEY_PATH}}"
+
+  [entryPoints.http]
+  address = ":80"
+    [entryPoints.http.redirect]
+    regex = "^http://(.*)"
+    replacement = "https://$1"
+
+[file]
+
+[backends]
+  [backends.docservice]
+    [backends.docservice.servers.backendserver-address]
+    url = "http://backendserver-address/"
+
+[frontends]
+  [frontends.docservice]
+  backend = "docservice"
+  passHostHeader = true
