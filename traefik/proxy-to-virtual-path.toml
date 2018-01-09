@@ -1,0 +1,27 @@
+
+# Use this example for the proxy document server running at 'backendserver-address'
+# into the virtual directory 'documentserver-virtual-path'.
+# Replace {{TRAEFIK_HOST}} with a name or an ip of the traefik server
+
+defaultEntryPoints = ["http"]
+[entryPoints]
+  [entryPoints.http]
+    address = ":80"
+
+[file]
+
+[backends]
+  [backends.docservice]
+    [backends.docservice.servers.backendserver-address]
+    url = "http://backendserver-address/"
+
+[frontends]
+  [frontends.docservice]
+  backend = "docservice"
+  passHostHeader = true
+
+    [frontends.docservice.headers.customrequestheaders]
+    X-Forwarded-Host = "{{TRAEFIK_HOST}}/documentserver-virtual-path"
+  
+    [frontends.docservice.routes.vpath]
+    rule = "PathPrefixStrip:/documentserver-virtual-path/"
