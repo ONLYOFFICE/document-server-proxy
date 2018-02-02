@@ -27,7 +27,6 @@ Edit the **web.config** file. Find `rewrite.rules` in the `configuration` sectio
           <serverVariables>		  
 			 <set name="HTTP_THE_SCHEME" value="http{C:1}" replace="false" />			
 			 <set name="HTTP_THE_HOST" value="{HTTP_HOST}" replace="false" />						
-			 <set name="HTTP_X_REWRITER_URL" value="{HTTP_THE_SCHEME}://{HTTP_THE_HOST}" replace="false" />
           </serverVariables>
 		  <action type="None" />
         </rule>	
