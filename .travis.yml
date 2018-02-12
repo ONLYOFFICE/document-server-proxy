@@ -1,0 +1,16 @@
+---
+services: docker
+
+env:
+  - path: tests/nginx/proxy-to-virtual-path
+    url: http://localhost/documentserver-virtual-path
+
+  - path: tests/apache/proxy-to-virtual-path
+    url: http://localhost/documentserver-virtual-path
+
+  - path: tests/traefik/minimal
+    url: http://localhost
+
+script:
+  # Run tests.
+  - ${PWD}/tests/test.sh
