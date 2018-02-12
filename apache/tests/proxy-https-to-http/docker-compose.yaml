@@ -14,7 +14,7 @@ services:
 
   onlyoffice-httpd:
     container_name: onlyoffice-httpd
-    image: httpd:2.4
+    image: httpd:2.4.23
     depends_on:
       - onlyoffice-documentserver
     stdin_open: true
