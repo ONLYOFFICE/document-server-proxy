@@ -1,6 +1,6 @@
 #!/bin/bash
 
-path=${path:-"./nginx/tests/proxy-to-virtual-path"}
+path=${path:-"./nginx/proxy-to-virtual-path"}
 url=${url:-"http://localhost/documentserver-virtual-path"}
 
 # Swich to test folder

@@ -2,7 +2,7 @@ version: '2'
 services:
   onlyoffice-documentserver:
     container_name: onlyoffice-documentserver
-    image: onlyoffice/documentserver:latest
+    image: onlyoffice/4testing-documentserver-ie:latest
     stdin_open: true
     restart: always
     networks:
@@ -12,19 +12,20 @@ services:
     expose:
       - '80'
 
-  onlyoffice-nginx:
-    container_name: onlyoffice-nginx
-    image: nginx:1.11
+  onlyoffice-traefik:
+    container_name: onlyoffice-traefik
+    image: traefik:1.5
     depends_on:
       - onlyoffice-documentserver
     stdin_open: true
     volumes:
-      - ../../proxy-to-virtual-path.conf:/etc/nginx/conf.d/default.conf
+      - ../../traefik/proxy-to-virtual-path.toml:/etc/traefik/traefik.toml
     restart: always
     networks:
      - onlyoffice
     ports:
       - '80:80'
+      - '8080:8080'
 
 networks:
   onlyoffice:

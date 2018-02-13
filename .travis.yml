@@ -2,15 +2,24 @@
 services: docker
 
 env:
-  - path: nginx/tests/proxy-to-virtual-path
+  - path: nginx/minimal
+    url: http://localhost
+
+  - path: nginx/proxy-to-virtual-path
     url: http://localhost/documentserver-virtual-path
 
-  - path: apache/tests/proxy-to-virtual-path
+  - path: apache/minimal
+    url: http://localhost
+
+  - path: apache/proxy-to-virtual-path
     url: http://localhost/documentserver-virtual-path
 
   - path: traefik/tests/minimal
     url: http://localhost
 
 script:
-  # Run tests.
-  - ${PWD}/tests/test.sh
+  # Go to tests dir
+  - cd ${PWD}/tests
+
+  # Run test.
+  - ./test.sh

@@ -1,0 +1,32 @@
+version: '2'
+services:
+  onlyoffice-documentserver:
+    container_name: onlyoffice-documentserver
+    image: onlyoffice/4testing-documentserver-ie:latest
+    stdin_open: true
+    restart: always
+    networks:
+      onlyoffice:
+        aliases:
+          - backendserver-address
+    expose:
+      - '80'
+
+  onlyoffice-traefik:
+    container_name: onlyoffice-traefik
+    image: traefik:1.5
+    depends_on:
+      - onlyoffice-documentserver
+    stdin_open: true
+    volumes:
+      - ../../../traefik/minimal.toml:/etc/traefik/traefik.toml
+    restart: always
+    networks:
+     - onlyoffice
+    ports:
+      - '80:80'
+
+networks:
+  onlyoffice:
+    driver: 'bridge'
+
