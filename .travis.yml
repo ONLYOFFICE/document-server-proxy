@@ -14,7 +14,7 @@ env:
   - path: apache/proxy-to-virtual-path
     url: http://localhost/documentserver-virtual-path
 
-  - path: traefik/tests/minimal
+  - path: traefik/minimal
     url: http://localhost
 
 script:
