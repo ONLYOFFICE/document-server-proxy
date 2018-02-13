@@ -7,6 +7,11 @@ env:
 
   - path: nginx/proxy-to-virtual-path
     url: http://localhost/documentserver-virtual-path
+    
+  - path: nginx/proxy-https-to-http
+    ssl: true
+    config: ../../../nginx/proxy-https-to-http.conf 
+    url: https://localhost
 
   - path: apache/minimal
     url: http://localhost
@@ -14,8 +19,18 @@ env:
   - path: apache/proxy-to-virtual-path
     url: http://localhost/documentserver-virtual-path
 
+  - path: apache/proxy-https-to-http    
+    ssl: true 
+    config: ../../../apache/proxy-https-to-http.conf
+    url: https://localhost
+
   - path: traefik/minimal
     url: http://localhost
+
+  - path: traefik/proxy-https-to-http
+    ssl: true 
+    config: ../../../traefik/proxy-https-to-http.toml
+    url: https://localhost
 
 script:
   # Go to tests dir

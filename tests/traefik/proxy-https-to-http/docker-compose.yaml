@@ -20,8 +20,8 @@ services:
     stdin_open: true
     volumes:
       - ../../../traefik/proxy-https-to-http.toml:/etc/traefik/traefik.toml
-      - ./server.crt:/etc/traefik/server.crt
-      - ./server.key:/etc/traefik/server.key
+      - ./server.crt:/etc/ssl/certs/server.crt
+      - ./server.key:/etc/ssl/private/server.key
     restart: always
     networks:
      - onlyoffice
