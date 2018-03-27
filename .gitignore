@@ -1,1 +1,3 @@
-tests/**/proxy-https-to-http/server.*
+*.crt
+*.key
+*.csr
