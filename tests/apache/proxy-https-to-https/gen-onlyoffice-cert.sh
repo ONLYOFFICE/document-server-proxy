@@ -1,8 +1,8 @@
 #!/bin/bash
 
-private_key=onlyoffice.key
-certificate_request=onlyoffice.csr
-certificate=onlyoffice.crt
+private_key=backend.key
+certificate_request=backend.csr
+certificate=backend.crt
 
 # Generate certificate
 openssl genrsa -out ${private_key} 2048
