@@ -75,7 +75,7 @@ fi
 docker-compose up -d
 
 # Wait for documentserver start up
-sleep 15s
+sleep 20s
 
 # Get documentserver healthcheck status
 healthcheck_res=$(wget --no-check-certificate -qO - ${url}/healthcheck)
