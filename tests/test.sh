@@ -75,7 +75,7 @@ fi
 docker-compose up -d
 
 wakeup_attempts=30
-wakeup_timeout=2
+wakeup_timeout=5
 
 for ((i=0; i<${wakeup_attempts}; i++))
 do
