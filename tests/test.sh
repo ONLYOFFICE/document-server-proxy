@@ -74,11 +74,21 @@ fi
 # Run test environment
 docker-compose up -d
 
-# Wait for documentserver start up
-sleep 20s
+wakeup_attempts=30
+wakeup_timeout=2
 
-# Get documentserver healthcheck status
-healthcheck_res=$(wget --no-check-certificate -qO - ${url}/healthcheck)
+for ((i=0; i<${wakeup_attempts}; i++))
+do
+  # Get documentserver healthcheck status
+  healthcheck_res=$(wget --no-check-certificate -qO - ${url}/healthcheck)
+  
+  if [ "${healthcheck_res}" == "true" ]; then
+    break
+  else
+    echo "Wait for service wake up #${i}"
+    sleep ${wakeup_timeout}
+  fi
+done
 
 # Fail if it isn't true
 if [ "${healthcheck_res}" == "true" ]; then
