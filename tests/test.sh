@@ -53,7 +53,7 @@ if [ "${ssl}" == "true" ]; then
   # Change config
   sed 's,{{SSL_CERTIFICATE_PATH}},'"${ssl_path}/certs/${certificate}"',' -i ${config}
   sed 's,{{SSL_KEY_PATH}},'"${ssl_path}/private/${private_key}"',' -i ${config}
-  sed 's,{{SSL_CERTIFICATE_KEY_PATH}},'"${ssl_path}/private/${certificate_private_key}"',' -i ${config}
+  sed 's,{{SSL_CERTIFICATE_KEY_PATH}},'"${ssl_path}/certs/${certificate_private_key}"',' -i ${config}
 fi
 
 # Run test environment
