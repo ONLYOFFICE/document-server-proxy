@@ -24,6 +24,17 @@ env:
     config: ../../../apache/proxy-https-to-http.conf
     url: https://localhost
 
+  - path: haproxy/minimal
+    url: http://localhost
+
+  - path: haproxy/proxy-to-virtual-path
+    url: http://localhost/documentserver-virtual-path
+
+  - path: haproxy/proxy-https-to-http    
+    ssl: true 
+    config: ../../../haproxy/proxy-https-to-http.cfg
+    url: https://localhost
+
   - path: traefik/minimal
     url: http://localhost
 

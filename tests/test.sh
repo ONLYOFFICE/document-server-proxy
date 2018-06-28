@@ -1,15 +1,16 @@
 #!/bin/bash
 
-path=${path:-"./nginx/proxy-to-virtual-path"}
-url=${url:-"http://localhost/documentserver-virtual-path"}
+path=${path:-""}
+url=${url:-"http://localhost"}
 
 # SSL specific options
 ssl=${ssl:-false}
-config=${config:-"../../../nginx/proxy-to-virtual-path.conf"}
+config=${config:-""}
 
 private_key=server.key
 certificate_request=server.csr
 certificate=server.crt
+certificate_private_key=server.pem
 
 ssl_path=/etc/ssl
 
@@ -45,10 +46,14 @@ if [ "${ssl}" == "true" ]; then
     -key ${private_key} \
     -out ${certificate_request}
   openssl x509 -req -days 365 -in ${certificate_request} -signkey ${private_key} -out ${certificate}
+  
+  # Create combined file for haproxy 
+  cat ${certificate} ${private_key} > ${certificate_private_key}
 
   # Change config
   sed 's,{{SSL_CERTIFICATE_PATH}},'"${ssl_path}/certs/${certificate}"',' -i ${config}
   sed 's,{{SSL_KEY_PATH}},'"${ssl_path}/private/${private_key}"',' -i ${config}
+  sed 's,{{SSL_CERTIFICATE_KEY_PATH}},'"${ssl_path}/private/${certificate_private_key}"',' -i ${config}
 fi
 
 # Run test environment
