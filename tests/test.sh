@@ -14,6 +14,12 @@ certificate_private_key=server.pem
 
 ssl_path=/etc/ssl
 
+# SSL backend specific options
+ssl_backend=${ssl_backend:-false}
+backend_private_key=backend.key
+backend_certificate_request=backend.csr
+backend_certificate=backend.crt
+
 # Check if the test folder exists
 if [ ! -d ${path} ]; then
   echo "File ${path} doesn't exist!"
@@ -56,14 +62,38 @@ if [ "${ssl}" == "true" ]; then
   sed 's,{{SSL_CERTIFICATE_KEY_PATH}},'"${ssl_path}/certs/${certificate_private_key}"',' -i ${config}
 fi
 
+# Check if the ssl back enabled
+if [ "${ssl_backend}" == "true" ]; then
+
+  # Generate backend certificate
+  openssl genrsa -out ${backend_private_key} 2048
+  openssl req \
+    -new \
+    -subj "/C=US/ST=Denial/L=Springfield/O=Dis/CN=backendserver-address" \
+    -key ${backend_private_key} \
+    -out ${backend_certificate_request}
+  openssl x509 -req -days 365 -in ${backend_certificate_request} -signkey ${backend_private_key} -out ${backend_certificate}
+
+fi
+
 # Run test environment
 docker-compose up -d
 
-# Wait for documentserver start up
-sleep 15s
+wakeup_attempts=30
+wakeup_timeout=5
 
-# Get documentserver healthcheck status
-healthcheck_res=$(wget --no-check-certificate -qO - ${url}/healthcheck)
+for ((i=0; i<${wakeup_attempts}; i++))
+do
+  # Get documentserver healthcheck status
+  healthcheck_res=$(wget --no-check-certificate -qO - ${url}/healthcheck)
+  
+  if [ "${healthcheck_res}" == "true" ]; then
+    break
+  else
+    echo "Wait for service wake up #${i}"
+    sleep ${wakeup_timeout}
+  fi
+done
 
 # Fail if it isn't true
 if [ "${healthcheck_res}" == "true" ]; then

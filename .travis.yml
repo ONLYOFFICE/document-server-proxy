@@ -24,6 +24,12 @@ env:
     config: ../../../apache/proxy-https-to-http.conf
     url: https://localhost
 
+  - path: apache/proxy-https-to-https    
+    ssl: true
+    ssl_backend: true
+    config: ../../../apache/proxy-https-to-https.conf
+    url: https://localhost
+    
   - path: haproxy/minimal
     url: http://localhost
 
