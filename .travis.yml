@@ -33,6 +33,9 @@ env:
   - path: haproxy/minimal
     url: http://localhost
 
+  - path: haproxy/cluster
+    url: http://localhost
+
   - path: haproxy/proxy-to-virtual-path
     url: http://localhost/documentserver-virtual-path
 
