@@ -77,7 +77,7 @@ if [ "${ssl_backend}" == "true" ]; then
 fi
 
 # Run test environment
-docker-compose up -d
+docker-compose -p ds up -d
 
 wakeup_attempts=30
 wakeup_timeout=5
