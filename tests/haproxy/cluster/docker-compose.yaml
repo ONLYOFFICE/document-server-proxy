@@ -24,8 +24,9 @@ services:
        - /var/www/onlyoffice/documentserver-example/public/files
        - /usr/share/fonts
 
-  backendserver-address:
+  backendserver-address-1:
     image: onlyoffice/documentserver-ie:latest
+    container_name: backendserver-address-1
     depends_on:
       - onlyoffice-documentserver-data
       - onlyoffice-postgresql
@@ -41,13 +42,32 @@ services:
       - '80'
     volumes_from:
      - onlyoffice-documentserver-data
-    scale: 2
+
+  backendserver-address-2:
+    image: onlyoffice/documentserver-ie:latest
+    container_name: backendserver-address-2
+    depends_on:
+      - onlyoffice-documentserver-data
+      - onlyoffice-postgresql
+      - onlyoffice-redis
+      - onlyoffice-rabbitmq
+    environment:
+      - ONLYOFFICE_DATA_CONTAINER_HOST=onlyoffice-documentserver-data
+    stdin_open: true
+    restart: always
+    networks:
+      - onlyoffice
+    expose:
+      - '80'
+    volumes_from:
+     - onlyoffice-documentserver-data
 
   onlyoffice-haproxy:
     container_name: onlyoffice-haproxy
     image: haproxy:1.5
     depends_on:
-      - backendserver-address
+      - backendserver-address-1
+      - backendserver-address-2
     stdin_open: true
     volumes:
       - ../../../haproxy/cluster.cfg:/usr/local/etc/haproxy/haproxy.cfg
