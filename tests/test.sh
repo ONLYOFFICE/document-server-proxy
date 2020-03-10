@@ -114,4 +114,4 @@ else
   exit 1
 fi
 
-docker-compose down
+docker-compose -p ds down
