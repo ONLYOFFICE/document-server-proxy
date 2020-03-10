@@ -2,7 +2,7 @@ version: '2'
 services:
   onlyoffice-documentserver:
     container_name: onlyoffice-documentserver
-    image: onlyoffice/4testing-documentserver:latest
+    image: onlyoffice/documentserver:latest
     stdin_open: true
     restart: always
     networks:
