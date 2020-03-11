@@ -79,6 +79,8 @@ fi
 # Run test environment
 docker-compose -p ds up -d
 
+docker ps -a
+
 wakeup_attempts=30
 wakeup_timeout=5
 
