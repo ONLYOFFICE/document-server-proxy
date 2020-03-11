@@ -97,6 +97,8 @@ do
   fi
 done
 
+docker ps -a
+
 # Fail if it isn't true
 if [ "${healthcheck_res}" == "true" ]; then
   echo "Healthcheck passed."
