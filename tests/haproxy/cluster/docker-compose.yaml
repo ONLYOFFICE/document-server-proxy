@@ -5,17 +5,15 @@ services:
     image: onlyoffice/documentserver-ie:latest
     environment:
       - ONLYOFFICE_DATA_CONTAINER=true
-      - POSTGRESQL_SERVER_HOST=onlyoffice-postgresql
-      - POSTGRESQL_SERVER_PORT=5432
-      - POSTGRESQL_SERVER_DB_NAME=onlyoffice
-      - POSTGRESQL_SERVER_USER=onlyoffice
-      - RABBITMQ_SERVER_URL=amqp://guest:guest@onlyoffice-rabbitmq
+      - DB_HOST=onlyoffice-postgresql
+      - DB_PORT=5432
+      - DB_NAME=onlyoffice
+      - DB_USER=onlyoffice
+      - AMQP_URI=amqp://guest:guest@onlyoffice-rabbitmq
       - REDIS_SERVER_HOST=onlyoffice-redis
       - REDIS_SERVER_PORT=6379
     stdin_open: true
     restart: always
-    networks:
-      - onlyoffice
     volumes:
        - /etc/onlyoffice
        - /var/www/onlyoffice/Data
@@ -24,8 +22,9 @@ services:
        - /var/www/onlyoffice/documentserver-example/public/files
        - /usr/share/fonts
 
-  backendserver-address:
+  backendserver-address-1:
     image: onlyoffice/documentserver-ie:latest
+    container_name: backendserver-address-1
     depends_on:
       - onlyoffice-documentserver-data
       - onlyoffice-postgresql
@@ -35,25 +34,38 @@ services:
       - ONLYOFFICE_DATA_CONTAINER_HOST=onlyoffice-documentserver-data
     stdin_open: true
     restart: always
-    networks:
-      - onlyoffice
     expose:
       - '80'
     volumes_from:
      - onlyoffice-documentserver-data
-    scale: 2
+
+  backendserver-address-2:
+    image: onlyoffice/documentserver-ie:latest
+    container_name: backendserver-address-2
+    depends_on:
+      - onlyoffice-documentserver-data
+      - onlyoffice-postgresql
+      - onlyoffice-redis
+      - onlyoffice-rabbitmq
+    environment:
+      - ONLYOFFICE_DATA_CONTAINER_HOST=onlyoffice-documentserver-data
+    stdin_open: true
+    restart: always
+    expose:
+      - '80'
+    volumes_from:
+     - onlyoffice-documentserver-data
 
   onlyoffice-haproxy:
     container_name: onlyoffice-haproxy
     image: haproxy:1.5
     depends_on:
-      - backendserver-address
+      - backendserver-address-1
+      - backendserver-address-2
     stdin_open: true
     volumes:
       - ../../../haproxy/cluster.cfg:/usr/local/etc/haproxy/haproxy.cfg
     restart: always
-    networks:
-     - onlyoffice
     ports:
       - '80:80'
 
@@ -61,8 +73,6 @@ services:
     container_name: onlyoffice-redis
     image: redis
     restart: always
-    networks:
-     - onlyoffice
     expose:
       - '6379'
 
@@ -70,8 +80,6 @@ services:
     container_name: onlyoffice-rabbitmq
     image: rabbitmq
     restart: always
-    networks:
-     - onlyoffice
     expose:
       - '5672'
 
@@ -81,17 +89,12 @@ services:
     environment:
       - POSTGRES_DB=onlyoffice
       - POSTGRES_USER=onlyoffice
-    networks:
-      - onlyoffice
+      - POSTGRES_HOST_AUTH_METHOD=trust
     restart: always
     expose:
       - '5432'
     volumes:
       - postgresql_data:/var/lib/postgresql
-
-networks:
-  onlyoffice:
-    driver: 'bridge'
 
 volumes:
   postgresql_data:
