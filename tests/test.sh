@@ -79,8 +79,6 @@ fi
 # Run test environment
 docker-compose -p ds up -d
 
-docker ps -a
-
 wakeup_attempts=30
 wakeup_timeout=5
 
@@ -96,8 +94,6 @@ do
     sleep ${wakeup_timeout}
   fi
 done
-
-docker ps -a
 
 # Fail if it isn't true
 if [ "${healthcheck_res}" == "true" ]; then
