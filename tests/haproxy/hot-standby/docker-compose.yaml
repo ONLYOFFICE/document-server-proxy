@@ -1,0 +1,101 @@
+version: '2.2'
+services:
+  onlyoffice-documentserver-data:
+    container_name: onlyoffice-documentserver-data
+    image: onlyoffice/documentserver-ie:latest
+    environment:
+      - ONLYOFFICE_DATA_CONTAINER=true
+      - DB_HOST=onlyoffice-postgresql
+      - DB_PORT=5432
+      - DB_NAME=onlyoffice
+      - DB_USER=onlyoffice
+      - AMQP_URI=amqp://guest:guest@onlyoffice-rabbitmq
+      - REDIS_SERVER_HOST=onlyoffice-redis
+      - REDIS_SERVER_PORT=6379
+    stdin_open: true
+    restart: always
+    volumes:
+       - /etc/onlyoffice
+       - /var/www/onlyoffice/Data
+       - /var/log/onlyoffice
+       - /var/lib/onlyoffice/documentserver/App_Data/cache/files
+       - /var/www/onlyoffice/documentserver-example/public/files
+       - /usr/share/fonts
+
+  backendserver-address-1:
+    image: onlyoffice/documentserver-ie:latest
+    container_name: backendserver-address-1
+    depends_on:
+      - onlyoffice-documentserver-data
+      - onlyoffice-postgresql
+      - onlyoffice-redis
+      - onlyoffice-rabbitmq
+    environment:
+      - ONLYOFFICE_DATA_CONTAINER_HOST=onlyoffice-documentserver-data
+    stdin_open: true
+    restart: always
+    expose:
+      - '80'
+    volumes_from:
+     - onlyoffice-documentserver-data
+
+  backendserver-address-2:
+    image: onlyoffice/documentserver-ie:latest
+    container_name: backendserver-address-2
+    depends_on:
+      - onlyoffice-documentserver-data
+      - onlyoffice-postgresql
+      - onlyoffice-redis
+      - onlyoffice-rabbitmq
+    environment:
+      - ONLYOFFICE_DATA_CONTAINER_HOST=onlyoffice-documentserver-data
+    stdin_open: true
+    restart: always
+    expose:
+      - '80'
+    volumes_from:
+     - onlyoffice-documentserver-data
+
+  onlyoffice-haproxy:
+    container_name: onlyoffice-haproxy
+    image: haproxy:1.5
+    depends_on:
+      - backendserver-address-1
+      - backendserver-address-2
+    stdin_open: true
+    volumes:
+      - ../../../haproxy/hot-standby.cfg:/usr/local/etc/haproxy/haproxy.cfg
+    restart: always
+    ports:
+      - '80:80'
+      - '1936:1936'
+
+  onlyoffice-redis:
+    container_name: onlyoffice-redis
+    image: redis
+    restart: always
+    expose:
+      - '6379'
+
+  onlyoffice-rabbitmq:
+    container_name: onlyoffice-rabbitmq
+    image: rabbitmq
+    restart: always
+    expose:
+      - '5672'
+
+  onlyoffice-postgresql:
+    container_name: onlyoffice-postgresql
+    image: postgres:9.5
+    environment:
+      - POSTGRES_DB=onlyoffice
+      - POSTGRES_USER=onlyoffice
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    restart: always
+    expose:
+      - '5432'
+    volumes:
+      - postgresql_data:/var/lib/postgresql
+
+volumes:
+  postgresql_data:

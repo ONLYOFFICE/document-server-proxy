@@ -36,6 +36,10 @@ env:
   - path: haproxy/cluster
     url: http://localhost
 
+  - path: haproxy/hot-standby
+    config: ../../../haproxy/hot-standby.cfg
+    url: http://localhost
+
   - path: haproxy/proxy-to-virtual-path
     url: http://localhost/documentserver-virtual-path
 
