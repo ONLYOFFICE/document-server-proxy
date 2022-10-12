@@ -22,7 +22,6 @@ verifier:
   name: ansible
 scenario:
   test_sequence:
-     - lint
      - destroy
      - dependency
      - syntax
@@ -31,7 +30,7 @@ scenario:
      - converge
      - verify
      - destroy
-lint: |
-  set -e
-  yamllint .
-  ansible-lint .
+       #lint: |
+       #set -e
+       #yamllint .
+       #ansible-lint .

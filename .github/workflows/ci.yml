@@ -7,7 +7,7 @@ name: Test
 
 defaults:
   run:
-    working-directory: './tests/nginx'
+    working-directory: 'document-server-proxy/tests/nginx'
 
 jobs:
 
@@ -33,6 +33,8 @@ jobs:
     steps:
       - name: Check out the codebase.
         uses: actions/checkout@v2
+        with:
+          path: 'document-server-proxy'
 
       - name: Set up Python 3.
         uses: actions/setup-python@v2
