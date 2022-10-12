@@ -13,6 +13,8 @@ platforms:
     pre_build_image: true
 provisioner:
   name: ansible
+  options:
+    extra-vars: "{'nginx_vhost_path': /etc/nginx/conf.d}"
   env:
     PROTO: ${MOLECULE_PROTO:-http}
     MOLECULE_NO_LOG: ${MOLECULE_NO_LOG:-true}
