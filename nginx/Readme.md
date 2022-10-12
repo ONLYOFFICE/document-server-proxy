@@ -21,7 +21,10 @@ sudo service nginx reload
 
 ## Ansible-playbook
 
-Also DocumentServer can be installed on virtual path behind nginx proxy with ansible. Below present playbook that you can use for it.
+Also DocumentServer can be installed on virtual path behind nginx proxy with ansible. 
+
+Below present playbook that you can use for it.
+
 For correct execute role you need define `ds_virtual_path` variable, after that backend documentserver will be available at `<server_address>/ds_virtual_path`
 
        - hosts: all
