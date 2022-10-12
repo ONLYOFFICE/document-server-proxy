@@ -1,6 +1,6 @@
 ## How to use it
 
-## Nginx hosted
+## Nginx
 
 ### Step 1 
 Install Nginx server. How to do this, see [Nginx documentation](http://nginx.org/en/linux_packages.html#stable).
