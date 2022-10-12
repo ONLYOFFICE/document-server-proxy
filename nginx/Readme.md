@@ -140,6 +140,6 @@ Variables, that can be configured before execute playbook:
            - ONLYOFFICE.rabbitmq
            - ONLYOFFICE.documentserver
 
-Note: When starting playbook, you need redefine variable in geerlingguy.nginx with extra-variable parameter, for example: 
+Note: When execute playbook, you need redefine `nginx_vhost_path` variable in geerlingguy.nginx with extra-variable parameter like that: 
 
      ansible-playbook <playbook_name>.yaml -e "nginx_vhost_path=/etc/nginx/conf.d"
