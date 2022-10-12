@@ -25,7 +25,10 @@ Also DocumentServer can be installed on virtual path behind nginx proxy with ans
 
 Below present playbook that you can use for it.
 
-For correct execute role you need define `ds_virtual_path` variable, after that backend documentserver will be available at `<server_address>/ds_virtual_path`
+Variables, that can be configured before execute playbook:
+
+- **ds_backend_address**: Address where backend docservice is actualy running. By default `localhost:8000`
+- **ds_virtual_path**: The virtual path for backend documentserver. By default `<nginx_server_address>/ds_path/`
 
        - hosts: all
    
@@ -34,7 +37,8 @@ For correct execute role you need define `ds_virtual_path` variable, after that 
            nginx_worker_connections: "768"
            nginx_keepalive_timeout: "65"
            nginx_server_tokens: "off"
-           ds_virtual_path: "<you_virtual_path>"
+           ds_virtual_path: "ds_path"
+           ds_backend_address: "localhost:8000"
   
            nginx_extra_http_options: |
              proxy_set_header Upgrade $http_upgrade;
@@ -73,7 +77,7 @@ For correct execute role you need define `ds_virtual_path` variable, after that 
            nginx_upstreams:     
              - name: docservice
                servers:
-                 - "localhost:8000"
+                 - "{{ ds_backend_address }}"
 
 
            postgresql_global_config_options:
@@ -132,8 +136,8 @@ For correct execute role you need define `ds_virtual_path` variable, after that 
          roles:
            - geerlingguy.nginx
            - geerlingguy.postgresql
-           - ONLYOFFICE.rabbitmq
            - geerlingguy.redis
+           - ONLYOFFICE.rabbitmq
            - ONLYOFFICE.documentserver
 
 Note: When starting playbook, you need redefine variable in geerlingguy.nginx with extra-variable parameter, for example: 
