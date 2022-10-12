@@ -104,7 +104,7 @@
   roles:
     - geerlingguy.nginx
     - geerlingguy.postgresql
-    - ONLYOFFICE.rabbitmq
+    - onlyoffice.rabbitmq
     - geerlingguy.redis
-    - ONLYOFFICE.documentserver
+    - onlyoffice.documentserver
 
