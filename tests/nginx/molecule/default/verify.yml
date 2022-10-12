@@ -1,0 +1,14 @@
+---
+- hosts: all
+  remote_user: root
+  become: true
+  vars:
+    proto: "{{ lookup('env', 'PROTO') }}"
+  tasks:
+    - name: "Get health check status on {{ proto }}://localhost/{{ ds_virtual_path }}/healthcheck/"
+      uri:
+        url: "{{ proto }}://localhost/{{ ds_virtual_path }}/healthcheck/"
+        return_content: yes
+        validate_certs: no
+      register: healthcheck
+      failed_when: "'true' not in healthcheck.content"

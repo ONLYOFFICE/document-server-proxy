@@ -1,0 +1,7 @@
+---
+roles:
+- src: geerlingguy.nginx
+- src: geerlingguy.redis
+- src: geerlingguy.postgresql
+- src: onlyoffice.rabbitmq
+- src: onlyoffice.documentserver
