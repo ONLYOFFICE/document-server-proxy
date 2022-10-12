@@ -1,0 +1,59 @@
+---
+name: Test
+'on':
+  push: 
+    branches: 
+      - 'feature/ansible-proxy-playbook'
+
+defaults:
+  run:
+    working-directory: './tests/nginx'
+
+jobs:
+
+  molecule:
+    name: Molecule test on
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        distro:
+          - centos7
+          - centos8
+          - debian9
+          - debian10
+          - debian11
+          - ubuntu1604
+          - ubuntu1804
+          - ubuntu2004
+        proto:
+          - http
+          - https  
+
+    steps:
+      - name: Check out the codebase.
+        uses: actions/checkout@v2
+
+      - name: Set up Python 3.
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install test dependencies.
+        run: pip3 install ansible molecule[lint,docker] docker yamllint ansible-lint
+
+      - name: Create test ssl certificate and key
+        run: |
+          mkdir ${PWD}/files/
+          openssl genrsa -out ${PWD}/files/test.key 2048
+          openssl req -new -key ${PWD}/files/test.key -out ${PWD}/files/test.csr -subj "/C=RU/ST=NizhObl/L=NizhNov/O=RK-Tech/OU=TestUnit/CN=TestName"
+          openssl x509 -req -days 365 -in ${PWD}/files/test.csr -signkey ${PWD}/files/test.key -out ${PWD}/files/test.crt
+
+      - name: Run Molecule tests.
+        run: molecule test
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
+          MOLECULE_NO_LOG: 'false'
+          MOLECULE_DISTRO: ${{ matrix.distro }}
+          MOLECULE_PROTO: ${{ matrix.proto}}
