@@ -61,7 +61,7 @@ Also DocumentServer can be installed on virtual_path behind nginx proxy with ans
                filename: "ds.conf"
                extra_parameters: |
                  location /virtual_path/ {
-                     proxy_pass http://localhost:8000/;
+                     proxy_pass http://docservice/;
                      proxy_http_version 1.1;
                  }
 
