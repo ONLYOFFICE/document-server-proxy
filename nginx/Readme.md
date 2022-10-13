@@ -27,8 +27,8 @@ Below present playbook that you can use for it.
 
 Variables, that can be configured before execute playbook:
 
-- **ds_backend_address**: Address where backend docservice is actualy running. By default `localhost:8000`
-- **ds_virtual_path**: The virtual path for backend documentserver. By default `<nginx_server_address>/ds_path/`
+- **ds_backend_address**: Address where backend documentserver is actualy running. By default `localhost:8000`
+- **ds_virtual_path**: The virtual path for backend documentserver. By default `/ds_backend/` Thats mean that you can access documentserver backend on `<nginx_server_address>/ds_backend/`
 
        - hosts: all
    
@@ -37,7 +37,7 @@ Variables, that can be configured before execute playbook:
            nginx_worker_connections: "768"
            nginx_keepalive_timeout: "65"
            nginx_server_tokens: "off"
-           ds_virtual_path: "ds_path"
+           ds_virtual_path: "ds_backend"
            ds_backend_address: "localhost:8000"
   
            nginx_extra_http_options: |
