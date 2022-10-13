@@ -26,9 +26,6 @@ jobs:
           - ubuntu1604
           - ubuntu1804
           - ubuntu2004
-        proto:
-          - http
-          - https  
 
     steps:
       - name: Check out the codebase.
@@ -44,13 +41,6 @@ jobs:
       - name: Install test dependencies.
         run: pip3 install ansible molecule[lint,docker] docker yamllint ansible-lint
 
-      - name: Create test ssl certificate and key
-        run: |
-          mkdir ${PWD}/files/
-          openssl genrsa -out ${PWD}/files/test.key 2048
-          openssl req -new -key ${PWD}/files/test.key -out ${PWD}/files/test.csr -subj "/C=RU/ST=NizhObl/L=NizhNov/O=RK-Tech/OU=TestUnit/CN=TestName"
-          openssl x509 -req -days 365 -in ${PWD}/files/test.csr -signkey ${PWD}/files/test.key -out ${PWD}/files/test.crt
-
       - name: Run Molecule tests.
         run: molecule test
         env:
@@ -58,4 +48,3 @@ jobs:
           ANSIBLE_FORCE_COLOR: '1'
           MOLECULE_NO_LOG: 'false'
           MOLECULE_DISTRO: ${{ matrix.distro }}
-          MOLECULE_PROTO: ${{ matrix.proto}}
