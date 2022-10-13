@@ -26,3 +26,15 @@
       become: yes
       when: ansible_os_family == "Debian"
 
+    - name: Install nginx
+      apt: 
+        name: nginx-extras
+      when: ansible_os_family == "Debian"
+
+    - name: restart-nginx
+      ansible.builtin.service:
+        name: "nginx"
+        state: restarted
+      become: yes
+      when: ansible_os_family == "Debian" 
+
