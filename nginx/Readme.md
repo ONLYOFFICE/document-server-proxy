@@ -34,6 +34,7 @@ Variables, that can be configured before execute playbook:
    
          vars:
            nginx_package_name: "nginx-extras"
+           nginx_remove_default_vhost: true
            nginx_worker_connections: "768"
            nginx_keepalive_timeout: "65"
            nginx_server_tokens: "off"
