@@ -19,7 +19,7 @@
       ansible.builtin.debconf:
         name: onlyoffice-documentserver
         question: onlyoffice/ds-port
-        value: "{{ ds_server_port }}"
+        value: 7001
         vtype: string
       when:
         - ds_server_port

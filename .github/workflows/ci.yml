@@ -18,13 +18,11 @@ jobs:
       fail-fast: false
       matrix:
         distro:
-          - centos7
-          - centos8
-          - debian9
-          - debian10
-          - debian11
-          - ubuntu1604
-          - ubuntu1804
+                #- debian9
+                #- debian10
+                #- debian11
+                #- ubuntu1604
+                #- ubuntu1804
           - ubuntu2004
 
     steps:
