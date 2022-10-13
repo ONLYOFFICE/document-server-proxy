@@ -14,3 +14,14 @@
       when: ansible_os_family == "Debian"
       changed_when: false
       failed_when: false
+
+    - name: Set up ds server port
+      ansible.builtin.debconf:
+        name: onlyoffice-documentserver
+        question: onlyoffice/ds-port
+        value: "{{ ds_server_port }}"
+        vtype: string
+      when:
+        - ds_server_port
+      become: yes
+

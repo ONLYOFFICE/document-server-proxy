@@ -6,9 +6,9 @@
     virtual_path: "{{ lookup('env', 'VIRTUAL_PATH') }}"
     proto: "{{ lookup('env', 'PROTO') }}"
   tasks:
-    - name: "Get health check status on {{ proto }}://localhost/{{ virtual_path }}/healthcheck/"
+    - name: "Get health check status on {{ proto }}://localhost:{{ ds_port }}/healthcheck/"
       uri:
-        url: "{{ proto }}://localhost/{{ virtual_path }}/healthcheck/"
+      url: "{{ proto }}://localhost:{{ ds_port }}/healthcheck/"
         return_content: yes
         validate_certs: no
       register: healthcheck
