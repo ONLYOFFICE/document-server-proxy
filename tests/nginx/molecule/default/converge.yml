@@ -7,6 +7,7 @@
     nginx_server_tokens: "off"
     ds_virtual_path: "ds_path"
     ds_backend_address: "localhost:8000"
+    ds_server_port: 7001
 
     nginx_extra_http_options: |
       proxy_set_header Upgrade $http_upgrade;

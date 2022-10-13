@@ -24,4 +24,5 @@
       when:
         - ds_server_port
       become: yes
+      when: ansible_os_family == "Debian"
 
