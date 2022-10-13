@@ -1,53 +1,26 @@
 - hosts: all
 
   vars:
-    nginx_remove_default_vhost: true
-    nginx_worker_connections: "768"
-    nginx_keepalive_timeout: "65"
-    nginx_server_tokens: "off"
-    ds_virtual_path: "ds_path"
-    ds_backend_address: "localhost:8000"
-    ds_server_port: 7001
+    nginx_package_name: "nginx" 
 
     nginx_extra_http_options: |
       proxy_set_header Upgrade $http_upgrade;
       proxy_set_header Connection $proxy_connection;
-      proxy_set_header X-Forwarded-Host $the_host/{{ ds_virtual_path }};
+      proxy_set_header X-Forwarded-Host $the_host/ds_virtual_path;
       proxy_set_header X-Forwarded-Proto $the_scheme;
       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
-      map $http_x_forwarded_proto $the_scheme {
-         default $http_x_forwarded_proto;
-         "" $scheme;
-      }
-
-      map $http_x_forwarded_host $the_host {
-         default $http_x_forwarded_host;
-         "" $host;
-      }
-
-      map $http_upgrade $proxy_connection {
-         default upgrade;
-         "" close;
-      }
-
     nginx_vhosts:
       - listen: "80 default_server"
-        server_name: "documentserver"
+        server_name: “”
         server_tokens: "off"
         template: "{{ nginx_vhost_template }}"
-        filename: "ds.conf"
+        filename: "onlyoffice.conf"
         extra_parameters: |
-          location /{{ ds_virtual_path }}/ {
-              proxy_pass http://docservice/;
+          location /ds_virtual_path/ {
+              proxy_pass http://localhost:7001/;
               proxy_http_version 1.1;
           }
-
-    nginx_upstreams:     
-      - name: docservice
-        servers:
-          - "{{ ds_backend_address }}"
-
 
     postgresql_global_config_options:
       - option: listen_addresses
