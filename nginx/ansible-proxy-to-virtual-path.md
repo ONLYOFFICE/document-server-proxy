@@ -12,13 +12,6 @@ Variables, that can be configured before execute playbook:
            nginx_package_name: "nginx"
            ds_server_port: 42800
   
-           nginx_extra_http_options: |
-             proxy_set_header Upgrade $http_upgrade;
-             proxy_set_header Connection $proxy_connection;
-             proxy_set_header X-Forwarded-Host $the_host/ds_path;
-             proxy_set_header X-Forwarded-Proto $the_scheme;
-             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
- 
            nginx_vhosts:
              - listen: "80 default_server"
                server_name: “”
