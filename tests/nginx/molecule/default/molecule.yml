@@ -19,7 +19,6 @@ provisioner:
     PROTO: ${MOLECULE_PROTO:-http}
     MOLECULE_NO_LOG: ${MOLECULE_NO_LOG:-true}
     VIRTUAL_PATH: ${VIRTUAL_PATH:-ds_virtual_path}
-    DS_PORT: ${DS_PORT:-7001}
 verifier:
   name: ansible
 scenario:

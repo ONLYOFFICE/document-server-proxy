@@ -19,7 +19,7 @@
       ansible.builtin.debconf:
         name: onlyoffice-documentserver
         question: onlyoffice/ds-port
-        value: 42800
+        value: 9378
         vtype: string
       become: yes
       when: ansible_os_family == "Debian"
@@ -27,10 +27,9 @@
     - name: Set ds server port (if configured)
       ansible.builtin.lineinfile:
         path: /root/.bashrc
-        line: export DS_PORT=42800
+        line: export DS_PORT=9378
       become: yes
       when: ansible_os_family == "RedHat"
-
 
     - name: Install nginx
       apt: 

@@ -2,7 +2,7 @@
 
   vars:
     nginx_package_name: "nginx"
-    ds_server_port: 42800 
+    ds_server_port: 9378
 
     nginx_extra_http_options: |
       proxy_set_header Upgrade $http_upgrade;

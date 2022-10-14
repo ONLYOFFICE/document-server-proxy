@@ -6,6 +6,16 @@
     virtual_path: "{{ lookup('env', 'VIRTUAL_PATH') }}"
     proto: "{{ lookup('env', 'PROTO') }}"
   tasks:
+
+    - name: check nginx configs
+      ansible.builtin.shell: ls -a /etc/nginx/conf.d
+
+    - name: check nginx configs
+      ansible.builtin.shell: cat /etc/nginx/conf.d/ds.conf
+
+    - name: check nginx configs
+      ansible.builtin.shell: cat/ etc/nginx/conf.d/onlyoffice.conf
+
     - name: "Get health check status on {{ proto }}://localhost/{{ virtual_path }}/healthcheck/"        
       uri: 
         url: "{{ proto }}://localhost/{{ virtual_path }}/healthcheck/"
