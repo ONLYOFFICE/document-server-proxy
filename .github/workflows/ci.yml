@@ -18,9 +18,9 @@ jobs:
       fail-fast: false
       matrix:
         distro:
-          - centos7
+                #- centos7
           - centos8
-          - debian9
+            #- debian9
                 #- debian10
                 #- debian11
                 #- ubuntu1604
