@@ -20,7 +20,7 @@
 
     - name: "pring some message" 
       ansible.builtin.debug: 
-        msg: "{{ file_content.two.stdout }}" 
+        msg: "{{ file_content_two.stdout }}" 
 
     - name: "Get health check status on {{ proto }}://localhost/{{ virtual_path }}/healthcheck/"        
       uri: 

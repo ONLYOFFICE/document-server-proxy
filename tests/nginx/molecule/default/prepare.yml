@@ -2,6 +2,10 @@
 - name: Prepare
   hosts: all
   become: true
+  vars: 
+    os_environment: 
+      - key: DS_PORT
+        value: 9378
 
   tasks:
     - name: Install PostgreSQL Python libraries.
@@ -26,9 +30,12 @@
 
     - name: Set ds server port (if configured)
       ansible.builtin.lineinfile:
-        path: /root/.bashrc
-        line: export DS_PORT=9378
+        dest: "/etc/environment"
+        state: present
+        regexp: "^{{ item.key }}="
+        line: "{{ item.key }}={{ item.value }}"
       become: yes
+      with_items: "{{ os_environment }}"
       when: ansible_os_family == "RedHat"
 
     - name: Install nginx
