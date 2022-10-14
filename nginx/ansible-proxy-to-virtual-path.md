@@ -15,7 +15,7 @@ Variables, that can be configured before execute playbook:
            nginx_extra_http_options: |
              proxy_set_header Upgrade $http_upgrade;
              proxy_set_header Connection $proxy_connection;
-             proxy_set_header X-Forwarded-Host $the_host/ds_virtual_path;
+             proxy_set_header X-Forwarded-Host $the_host/ds_path;
              proxy_set_header X-Forwarded-Proto $the_scheme;
              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
  
@@ -26,7 +26,13 @@ Variables, that can be configured before execute playbook:
                template: "{{ nginx_vhost_template }}"
                filename: "onlyoffice.conf"
                extra_parameters: |
-                 location /ds_virtual_path/ {
+                 location /ds_path/ {
+                     proxy_set_header Upgrade $http_upgrade;
+                     proxy_set_header Connection $proxy_connection;
+                     proxy_set_header X-Forwarded-Host $the_host/ds_path;
+                     proxy_set_header X-Forwarded-Proto $the_scheme;
+                     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for
+
                      proxy_pass http://localhost:{{ ds_server_port }}/;
                      proxy_http_version 1.1;
                  }
