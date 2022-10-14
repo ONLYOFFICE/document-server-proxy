@@ -6,15 +6,21 @@
     virtual_path: "{{ lookup('env', 'VIRTUAL_PATH') }}"
     proto: "{{ lookup('env', 'PROTO') }}"
   tasks:
-
-    - name: check nginx configs
-      ansible.builtin.shell: ls -a /etc/nginx/conf.d
-
     - name: check nginx configs
       ansible.builtin.shell: cat /etc/nginx/conf.d/ds.conf
+      register: file_content
 
     - name: check nginx configs
-      ansible.builtin.shell: cat/ etc/nginx/conf.d/onlyoffice.conf
+      ansible.builtin.shell: cat /etc/nginx/conf.d/onlyoffice.conf
+      register: file_content_two
+
+    - name: "print message" 
+      ansible.builtin.debug: 
+        msg: "{{ file_content.stdout }}"
+
+    - name: "pring some message" 
+      ansible.builtin.debug: 
+        msg: "{{ file_content.two.stdout }}" 
 
     - name: "Get health check status on {{ proto }}://localhost/{{ virtual_path }}/healthcheck/"        
       uri: 
