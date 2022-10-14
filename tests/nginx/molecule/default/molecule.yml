@@ -18,7 +18,7 @@ provisioner:
   env:
     PROTO: ${MOLECULE_PROTO:-http}
     MOLECULE_NO_LOG: ${MOLECULE_NO_LOG:-true}
-    VIRTUAL_PATH: ${VIRTUAL_PATH:-ds_virtual_path}
+    VIRTUAL_PATH: ${VIRTUAL_PATH:-ds_path}
 verifier:
   name: ansible
 scenario:
