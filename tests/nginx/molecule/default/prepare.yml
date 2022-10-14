@@ -28,7 +28,7 @@
       become: yes
       when: ansible_os_family == "Debian"
 
-    - name: Set ds server port (if configured)
+    - name: Set ds server custom port
       ansible.builtin.lineinfile:
         dest: "/etc/environment"
         state: present
@@ -49,4 +49,3 @@
         state: restarted
       become: yes
       when: ansible_os_family == "Debian" 
-
