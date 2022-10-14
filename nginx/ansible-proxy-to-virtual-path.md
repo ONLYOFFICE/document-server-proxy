@@ -6,14 +6,11 @@ Below present playbook that you can use for it.
 
 Variables, that can be configured before execute playbook:
 
-- **ds_port**: Set the value of the port variable on which the document server is running.
-
        - hosts: all
    
          vars:
            nginx_package_name: "nginx"
-           nginx_remove_default_vhost: true
-           ds_port: ""
+           ds_server_port: 42800
   
            nginx_extra_http_options: |
              proxy_set_header Upgrade $http_upgrade;
@@ -30,7 +27,7 @@ Variables, that can be configured before execute playbook:
                filename: "onlyoffice.conf"
                extra_parameters: |
                  location /ds_virtual_path/ {
-                     proxy_pass http://localhost:{{ ds_port }}/;
+                     proxy_pass http://localhost:{{ ds_server_port }}/;
                      proxy_http_version 1.1;
                  }
 
