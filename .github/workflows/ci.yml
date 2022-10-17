@@ -3,7 +3,9 @@ name: Test
 'on':
   push: 
     branches: 
-      - 'feature/ansible-proxy-playbook'
+      - 'feature/*'
+      - 'butfix/*'
+      - 'master'
 
 defaults:
   run:
