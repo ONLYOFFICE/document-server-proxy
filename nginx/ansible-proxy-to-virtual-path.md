@@ -4,8 +4,6 @@ DocumentServer can be installed on virtual path behind nginx proxy with ansible.
 
 Below present playbook that you can use for it.
 
-Variables, that can be configured before execute playbook:
-
        - hosts: all
    
          vars:
