@@ -1,27 +1,25 @@
 - hosts: all
-   
+
   vars:
     nginx_package_name: "nginx"
-    ds_port: 9378
-  
+    ds_server_port: 9378
+
     nginx_vhosts:
-       - listen: "80 default_server"
-         server_name: “”
-         server_tokens: "off"
-         template: "{{ nginx_vhost_template }}"
-         filename: "onlyoffice.conf"
-         extra_parameters: |
-           location /ds_path/ {
+      - listen: "80 default_server"
+        server_name: “”
+        server_tokens: "off"
+        template: "{{ nginx_vhost_template }}"
+        filename: "onlyoffice.conf"
+        extra_parameters: |
+          location /ds_path/ {
               proxy_set_header Upgrade $http_upgrade;
               proxy_set_header Connection $proxy_connection;
               proxy_set_header X-Forwarded-Host $the_host/ds_path;
               proxy_set_header X-Forwarded-Proto $the_scheme;
-              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for
-   
-              proxy_pass http://localhost:{{ ds_port }}/;
+              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; 
+              proxy_pass http://localhost:{{ ds_server_port }}/;
               proxy_http_version 1.1;
-           }
-
+          }
     postgresql_global_config_options:
       - option: listen_addresses
         value: "*"
@@ -57,7 +55,7 @@
 
     postgresql_databases:
       - name: "{{ db_server_name }}"
-        
+
     postgresql_users:
       - name: "{{ db_server_user }}"
         password: "{{ db_server_pass }}"
@@ -77,7 +75,7 @@
 
   roles:
     - geerlingguy.postgresql
-    - geerlingguy.redis
     - onlyoffice.rabbitmq
+    - geerlingguy.redis
     - onlyoffice.documentserver
     - geerlingguy.nginx
