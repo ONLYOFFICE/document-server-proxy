@@ -2,7 +2,7 @@
    
   vars:
     nginx_package_name: "nginx"
-    ds_port: 42800
+    ds_port: 9378
   
     nginx_vhosts:
        - listen: "80 default_server"
