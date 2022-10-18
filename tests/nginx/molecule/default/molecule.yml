@@ -20,7 +20,7 @@ provisioner:
     MOLECULE_NO_LOG: ${MOLECULE_NO_LOG:-true}
     VIRTUAL_PATH: ${VIRTUAL_PATH:-ds_path}
   playbooks:
-    convegre: ../../../../nginx/ansible/virtual-path-playbook.yaml
+    converge: ../../../../nginx/ansible/virtual-path-playbook.yaml
 verifier:
   name: ansible
 scenario:
