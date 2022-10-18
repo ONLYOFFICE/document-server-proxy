@@ -1,0 +1,52 @@
+---
+name: Test
+'on':
+  push: 
+    branches: 
+      - 'feature/*'
+      - 'butfix/*'
+      - 'master'
+
+defaults:
+  run:
+    working-directory: 'document-server-proxy/tests/nginx'
+
+jobs:
+
+  molecule:
+    name: Molecule test on
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        distro:
+          - centos7
+          - centos8
+          - debian9
+          - debian10
+          - debian11
+          - ubuntu1604
+          - ubuntu1804
+          - ubuntu2004
+
+    steps:
+      - name: Check out the codebase.
+        uses: actions/checkout@v2
+        with:
+          path: 'document-server-proxy'
+
+      - name: Set up Python 3.
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install test dependencies.
+        run: pip3 install ansible molecule[lint,docker] docker yamllint ansible-lint
+
+      - name: Run Molecule tests.
+        run: molecule test
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
+          MOLECULE_NO_LOG: 'false'
+          MOLECULE_DISTRO: ${{ matrix.distro }}

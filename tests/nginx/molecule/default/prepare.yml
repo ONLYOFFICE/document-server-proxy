@@ -1,0 +1,51 @@
+---
+- name: Prepare
+  hosts: all
+  become: true
+  vars: 
+    os_environment: 
+      - key: DS_PORT
+        value: 9378
+
+  tasks:
+    - name: Install PostgreSQL Python libraries.
+      apt:
+        update_cache: yes
+        pkg:
+          - python3-psycopg2
+          - gnupg
+        state: present
+      when: ansible_os_family == "Debian"
+      changed_when: false
+      failed_when: false
+
+    - name: Set up ds server port
+      ansible.builtin.debconf:
+        name: onlyoffice-documentserver
+        question: onlyoffice/ds-port
+        value: 9378
+        vtype: string
+      become: yes
+      when: ansible_os_family == "Debian"
+
+    - name: Set ds server custom port
+      ansible.builtin.lineinfile:
+        dest: "/etc/environment"
+        state: present
+        regexp: "^{{ item.key }}="
+        line: "{{ item.key }}={{ item.value }}"
+      become: yes
+      with_items: "{{ os_environment }}"
+      when: ansible_os_family == "RedHat"
+
+    - name: Install nginx
+      apt: 
+        name: nginx-extras
+      when: ansible_os_family == "Debian"
+
+    - name: restart-nginx
+      ansible.builtin.service:
+        name: "nginx"
+        state: restarted
+      become: yes
+      when: ansible_os_family == "Debian" 

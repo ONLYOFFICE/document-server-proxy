@@ -1,0 +1,35 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+platforms:
+  - name: "${MOLECULE_DISTRO:-ubuntu2004}"
+    image: "geerlingguy/docker-${MOLECULE_DISTRO:-ubuntu2004}-ansible:latest"
+    command: ${MOLECULE_DOCKER_COMMAND:-""}
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true
+    pre_build_image: true
+provisioner:
+  name: ansible
+  options:
+    extra-vars: "{'nginx_vhost_path': /etc/nginx/conf.d}"
+  env:
+    PROTO: ${MOLECULE_PROTO:-http}
+    MOLECULE_NO_LOG: ${MOLECULE_NO_LOG:-true}
+    VIRTUAL_PATH: ${VIRTUAL_PATH:-ds_path}
+  playbooks:
+    converge: ../../../../nginx/ansible/virtual-path-playbook.yaml
+verifier:
+  name: ansible
+scenario:
+  test_sequence:
+     - destroy
+     - dependency
+     - syntax
+     - create
+     - prepare
+     - converge
+     - verify
+     - destroy
