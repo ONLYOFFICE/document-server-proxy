@@ -26,4 +26,4 @@ Make your [ansible inventory file](https://docs.ansible.com/ansible/latest/user_
 ansible-playbook -i <inventory_file_name> virtual-path-playbook.yaml
 ```
 
-Note: Inside the `virtual-path-playbook.yaml` you can also override the port variable on which the DocumentServer will be run. `42800` by default.
+Note: Inside the `virtual-path-playbook.yaml` you can also override the port variable on which the DocumentServer will be run. `9378` by default.
