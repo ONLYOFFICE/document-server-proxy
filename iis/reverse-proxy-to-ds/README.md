@@ -1,5 +1,5 @@
 ## What this is for
-This guide explains how to setup your IIS to allow connections to Docker-Workspace instance with HTTP/HTTPS using IIS as reverse proxy. 
+This guide explains how to setup your IIS to allow connections to DocumentServer instance with HTTP/HTTPS using IIS as reverse proxy. 
 
 ## How to use it
 
@@ -32,7 +32,7 @@ Edit the **web.config** file. Find `rewrite.rules` in the `configuration` sectio
         </rule>
                 <rule name="ReverseProxyInboundRule1" stopProcessing="true">
                     <match url="(.*)" />
-                    <action type="Rewrite" url="http://<workspace_address>/{R:1}" />
+                    <action type="Rewrite" url="http://<ds_address>/{R:1}" />
                     <conditions>
                         <add input="{HTTPS}s" pattern="on(s)|offs" />
                     </conditions>
@@ -47,7 +47,7 @@ Edit the **web.config** file. Find `rewrite.rules` in the `configuration` sectio
   </system.webServer>
 </configuration>
 ```
-And replace the `<workspace_address>` value with workspace real IP (when on local network) or Internet address. After that Workspace will be accessible from your IIS ip/dns address.
+And replace the `<ds_address>` value with DocumentServer real IP (when on local network) or Internet address. After that Workspace will be accessible from your IIS ip/dns address.
 
 ### Step 2
 Install the additional IIS components:
@@ -60,3 +60,5 @@ Add IIS server variables. You will need to add `HTTP_X_FORWARDED_PROTO`,`HTTP_X_
 * In the right-side menu locate **Manage Server Variables** and click **View Server Variables**.
 * Use the **Add...** action and add the `HTTP_X_FORWARDED_PROTO`,`HTTP_X_FORWARDED_HOST`,`HTTP_THE_SCHEME` and `HTTP_THE_HOST` one after another.
 More information on adding the variables to the IIS server can be found [here](https://www.iis.net/learn/extensions/url-rewrite-module/setting-http-request-headers-and-iis-server-variables).
+
+> **Tip**: This config also can be used for proxy connections for some another products. For example Docker-Workspace.
