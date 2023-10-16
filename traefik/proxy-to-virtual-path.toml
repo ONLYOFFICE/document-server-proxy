@@ -24,4 +24,8 @@ defaultEntryPoints = ["http"]
     X-Forwarded-Prefix = "/documentserver-virtual-path"
   
     [frontends.docservice.routes.vpath]
+<<<<<<< HEAD
     rule = "PathPrefixStrip:/documentserver-virtual-path/"
+=======
+    rule = "PathPrefixStrip:/documentserver-virtual-path/"
+>>>>>>> parent of 4d5d6bd... Fix endline
