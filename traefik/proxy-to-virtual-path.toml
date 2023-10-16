@@ -25,3 +25,4 @@ defaultEntryPoints = ["http"]
   
     [frontends.docservice.routes.vpath]
     rule = "PathPrefixStrip:/documentserver-virtual-path/"
+
