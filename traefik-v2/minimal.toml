@@ -1,0 +1,18 @@
+[entryPoints.https]
+    address = ":443"
+
+
+# create middleware, else there are problems with wss requests on https
+[http.middlewares.forwarded-proto-https.headers.customRequestHeaders]
+    X-Forwarded-Proto = "https"
+
+
+[http.routers.onlyoffice]
+    entryPoints = ["https"]
+    service = "onlyoffice"
+    middlewares = ["forwarded-proto-https"]
+
+
+[http.services.onlyoffice.loadBalancer]
+    [[http.services.onlyoffice.loadBalancer.servers]]
+        url = "https://backendserver-address:port"
