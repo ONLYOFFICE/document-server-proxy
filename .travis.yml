@@ -33,7 +33,7 @@ env:
   - path: haproxy/minimal
     url: http://localhost
 
-  - path: haproxy/cluster
+  - path: haproxy/active-active
     url: http://localhost
 
   - path: haproxy/hot-standby

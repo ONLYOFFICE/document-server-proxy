@@ -64,7 +64,7 @@ services:
       - backendserver-address-2
     stdin_open: true
     volumes:
-      - ../../../haproxy/cluster.cfg:/usr/local/etc/haproxy/haproxy.cfg
+      - ../../../haproxy/active-active.cfg:/usr/local/etc/haproxy/haproxy.cfg
     restart: always
     ports:
       - '80:80'
