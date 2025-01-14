@@ -59,3 +59,6 @@ Add IIS server variables. You will need to add `HTTP_X_FORWARDED_PROTO`,`HTTP_X_
 * In the right-side menu locate **Manage Server Variables** and click **View Server Variables**.
 * Use the **Add...** action and add the `HTTP_X_FORWARDED_PROTO`,`HTTP_X_FORWARDED_HOST`,`HTTP_THE_SCHEME` and `HTTP_THE_HOST` one after another.
 More information on adding the variables to the IIS server can be found [here](https://www.iis.net/learn/extensions/url-rewrite-module/setting-http-request-headers-and-iis-server-variables).
+
+
+For example to work correctly, you need to add a virtual path to the documentserver configuration file %ProgramW6432%\ONLYOFFICE\example\config\local.json: server.siteUrl: "/documentserver-virtual-path/"

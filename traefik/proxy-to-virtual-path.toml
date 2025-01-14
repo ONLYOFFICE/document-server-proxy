@@ -21,7 +21,7 @@ defaultEntryPoints = ["http"]
   passHostHeader = true
 
     [frontends.docservice.headers.customrequestheaders]
-    X-Forwarded-Host = "{{TRAEFIK_HOST}}/documentserver-virtual-path"
+    X-Forwarded-Prefix = "/documentserver-virtual-path"
   
     [frontends.docservice.routes.vpath]
     rule = "PathPrefixStrip:/documentserver-virtual-path/"
