@@ -33,7 +33,7 @@ After logging into the NPM dashboard:
 
    Video manual:
 
-   https://github.com/user-attachments/assets/53c80c5f-bbb6-4dec-b455-c0da2d7e6dfc
+   https://github.com/user-attachments/assets/c2e14ec6-ff8f-4467-aa1a-a81e4aa811de
 
 4. Go to the **SSL** tab:
 
@@ -48,7 +48,7 @@ After logging into the NPM dashboard:
 
    Video manual:
 
-   https://github.com/user-attachments/assets/4ee1e11e-123a-4b73-91d5-52b7d23c3c66
+   https://github.com/user-attachments/assets/4c47edcc-1ac8-42ee-838c-982c03dca5da
 
 ---
 
