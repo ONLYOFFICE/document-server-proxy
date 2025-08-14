@@ -1,0 +1,26 @@
+services:
+  nginx-proxy-manager:
+    image: 'docker.io/jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '81:81'
+      - '443:443'
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+
+  onlyoffice-documentserver:
+    container_name: onlyoffice-documentserver
+    image: onlyoffice/documentserver:latest
+    stdin_open: true
+    restart: always
+    expose:
+      - '80'
+    stop_grace_period: 60s
+    volumes:
+       - /var/www/onlyoffice/Data
+       - /var/log/onlyoffice
+       - /var/lib/onlyoffice/documentserver/App_Data/cache/files
+       - /var/www/onlyoffice/documentserver-example/public/files
+       - /usr/share/fonts
