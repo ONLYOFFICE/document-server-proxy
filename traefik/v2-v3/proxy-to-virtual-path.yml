@@ -1,0 +1,36 @@
+# Traefik_v2/v3 example config
+# -------------------------
+# Use this example for the proxy document server running at 'backendserver-address'
+# into the virtual directory 'documentserver-virtual-path'.
+# Replace {{TRAEFIK_HOST}} with a name or an ip of the traefik server
+#
+# Tested with DocumentServer (separate server) + Traefik_v2/v3 (separate server) + onlyoffice/docs-example (separate server)
+
+http:
+  routers:
+    ds:
+      rule: Host(`{{TRAEFIK_HOST}}`) && PathPrefix(`/documentserver-virtual-path`)
+      service: ds
+      middlewares:
+        - strip-vpath
+        - fix-location
+
+  services:
+    ds:
+      loadBalancer:
+        servers:
+          - url: "http://backendserver-address"
+
+  middlewares:
+    strip-vpath:
+      stripPrefix:
+        prefixes:
+          - "/documentserver-virtual-path"
+
+    fix-location:
+      plugin:
+        rewriteResponseHeaders:
+          rewrites:
+            - header: "Location"
+              regex: "^/(.*)$"
+              replacement: "/documentserver-virtual-path/$1"

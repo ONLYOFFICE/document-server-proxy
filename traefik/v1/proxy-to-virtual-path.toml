@@ -1,7 +1,10 @@
-
+# Traefik_v1 example config
+# -------------------------
 # Use this example for the proxy document server running at 'backendserver-address'
 # into the virtual directory 'documentserver-virtual-path'.
 # Replace {{TRAEFIK_HOST}} with a name or an ip of the traefik server
+#
+# Tested with DocumentServer (separate server) + Traefik_v1 (separate server) + onlyoffice/docs-example (separate server)
 
 defaultEntryPoints = ["http"]
 [entryPoints]
@@ -21,7 +24,7 @@ defaultEntryPoints = ["http"]
   passHostHeader = true
 
     [frontends.docservice.headers.customrequestheaders]
-    X-Forwarded-Host = "{{TRAEFIK_HOST}}/documentserver-virtual-path"
+    X-Forwarded-Host = "{{TRAEFIK_HOST}}"
   
     [frontends.docservice.routes.vpath]
-    rule = "PathPrefixStrip:/documentserver-virtual-path/"
+    rule = "Host:{{TRAEFIK_HOST}};PathPrefixStrip:/documentserver-virtual-path/"
