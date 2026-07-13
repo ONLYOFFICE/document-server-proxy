@@ -2,7 +2,7 @@ version: '2.2'
 services:
   onlyoffice-documentserver-data:
     container_name: onlyoffice-documentserver-data
-    image: onlyoffice/documentserver-ie:latest
+    image: onlyoffice/documentserver:latest
     environment:
       - ONLYOFFICE_DATA_CONTAINER=true
       - DB_HOST=onlyoffice-postgresql
@@ -23,7 +23,7 @@ services:
        - /usr/share/fonts
 
   backendserver-address-1:
-    image: onlyoffice/documentserver-ie:latest
+    image: onlyoffice/documentserver:latest
     container_name: backendserver-address-1
     depends_on:
       - onlyoffice-documentserver-data
@@ -40,7 +40,7 @@ services:
      - onlyoffice-documentserver-data
 
   backendserver-address-2:
-    image: onlyoffice/documentserver-ie:latest
+    image: onlyoffice/documentserver:latest
     container_name: backendserver-address-2
     depends_on:
       - onlyoffice-documentserver-data

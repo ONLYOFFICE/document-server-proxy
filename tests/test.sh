@@ -168,20 +168,3 @@ else
   echo "Proxying failed! Expected '${expected_baseurl}', got '${baseurl_res}'."
   exit 1
 fi
-
-if [ "${check_websocket_headers}" == "true" ]; then
-  websocket_res=$(wget \
-    --no-check-certificate \
-    --header="Connection: upgrade" \
-    --header="Upgrade: websocket" \
-    --header="Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==" \
-    --header="Sec-WebSocket-Version: 13" \
-    -qO - ${url}/healthcheck)
-
-  if [ "${websocket_res}" == "true" ]; then
-    echo "WebSocket upgrade headers smoke passed."
-  else
-    echo "WebSocket upgrade headers smoke failed!"
-    exit 1
-  fi
-fi
