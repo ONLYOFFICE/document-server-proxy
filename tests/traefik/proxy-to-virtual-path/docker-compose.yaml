@@ -19,7 +19,7 @@ services:
       - onlyoffice-documentserver
     stdin_open: true
     volumes:
-      - ../../traefik/proxy-to-virtual-path.toml:/etc/traefik/traefik.toml
+      - ../../../traefik/v1/proxy-to-virtual-path.toml:/etc/traefik/traefik.toml
     restart: always
     networks:
      - onlyoffice

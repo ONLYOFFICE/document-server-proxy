@@ -1,10 +1,11 @@
 ---
 name: Test
 'on':
+  workflow_dispatch:
   push: 
     branches: 
       - 'feature/*'
-      - 'butfix/*'
+      - 'bugfix/*'
       - 'master'
 
 defaults:
@@ -12,6 +13,56 @@ defaults:
     working-directory: 'document-server-proxy/tests/nginx'
 
 jobs:
+
+  proxy-smoke:
+    name: Proxy smoke test (${{ matrix.name }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: nginx HTTPS to HTTP
+            path: nginx/proxy-https-to-http
+            url: https://localhost
+            ssl: 'true'
+            config: ../../../nginx/proxy-https-to-http.conf
+            traefik_host: ''
+            check_websocket_headers: 'true'
+          - name: traefik HTTPS to HTTP
+            path: traefik/proxy-https-to-http
+            url: https://localhost
+            ssl: 'true'
+            config: ../../../traefik/v1/proxy-https-to-http.toml
+            traefik_host: ''
+            check_websocket_headers: 'true'
+          - name: nginx virtual path
+            path: nginx/proxy-to-virtual-path
+            url: http://localhost/documentserver-virtual-path
+            ssl: 'false'
+            config: ''
+            traefik_host: ''
+            check_websocket_headers: 'false'
+
+    steps:
+      - name: Check out the codebase.
+        uses: actions/checkout@v4
+        with:
+          path: 'document-server-proxy'
+
+      - name: Show Docker Compose version.
+        run: docker compose version || docker-compose --version
+        working-directory: 'document-server-proxy/tests'
+
+      - name: Run proxy smoke test.
+        run: ./test.sh
+        working-directory: 'document-server-proxy/tests'
+        env:
+          path: ${{ matrix.path }}
+          url: ${{ matrix.url }}
+          ssl: ${{ matrix.ssl }}
+          config: ${{ matrix.config }}
+          traefik_host: ${{ matrix.traefik_host }}
+          check_websocket_headers: ${{ matrix.check_websocket_headers }}
 
   molecule:
     name: Molecule test on

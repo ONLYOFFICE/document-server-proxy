@@ -19,7 +19,7 @@ services:
       - onlyoffice-documentserver
     stdin_open: true
     volumes:
-      - ../../../traefik/proxy-https-to-http.toml:/etc/traefik/traefik.toml
+      - ../../../traefik/v1/proxy-https-to-http.toml:/etc/traefik/traefik.toml
       - ./server.crt:/etc/ssl/certs/server.crt
       - ./server.key:/etc/ssl/private/server.key
     restart: always
